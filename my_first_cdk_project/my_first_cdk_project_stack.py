@@ -1,5 +1,7 @@
-from aws_cdk import core
-
+from aws_cdk import (
+    aws_s3 as _s3,
+    core
+)
 
 class MyFirstCdkProjectStack(core.Stack):
 
@@ -7,3 +9,18 @@ class MyFirstCdkProjectStack(core.Stack):
         super().__init__(scope, construct_id, **kwargs)
 
         # The code that defines your stack goes here
+        mybucket = _s3.Bucket(
+            self,
+            "myBucketId",
+            versioned= True,
+            encryption= _s3.BucketEncryption.KMS_MANAGED
+        )
+
+        output_1 = core.CfnOutput(
+            self,
+            "mybucketoutput",
+            value=mybucket.bucket_name,
+            description="This is my first CDK bucket",
+            export_name="mybucketoutput"
+
+        )
