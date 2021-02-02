@@ -16,7 +16,8 @@ class MyFirstCdkProjectStack(core.Stack):
             encryption= _s3.BucketEncryption.KMS_MANAGED
            
         )
-       # print(self.node.try_get_context('dev')['region'])
+       #print(self.node.try_get_context('dev')['region'])
+       #This is the test line
 
         output_1 = core.CfnOutput(
             self,
