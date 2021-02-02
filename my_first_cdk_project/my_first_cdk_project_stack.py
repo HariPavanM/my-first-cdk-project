@@ -14,7 +14,9 @@ class MyFirstCdkProjectStack(core.Stack):
             "myBucketId",
             versioned= True,
             encryption= _s3.BucketEncryption.KMS_MANAGED
+           
         )
+       # print(self.node.try_get_context('dev')['region'])
 
         output_1 = core.CfnOutput(
             self,
