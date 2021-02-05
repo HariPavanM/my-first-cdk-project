@@ -2,11 +2,18 @@
   "app": "python3 app.py",
   "versionReporting": false,
   "context": {
-        
-    "dev":{
-      "region":"us-east-1",
-      "vpc_cidr":"10.0.0.0"
-    }
-   }
+      "envs":{
+        "prod":{
+          "project name":"Custom VPC project",
+          "region":"us-east-1",
+          "vpc_configs":{
+            "vpc_cidr":"10.0.0.0/20",
+            "cidr_mask":24,
+            "set_resever":false
+          }
+          
+        }
+      }  
+     }
  } 
 
