@@ -10,7 +10,7 @@ class CustomEc2Stack(core.Stack):
 
         my_vpc = _ec2.Vpc.from_lookup(self, 'CustomVpcId', vpc_name=f'custom_vpc/CustomVpcId')
 
-#print(CustomVpcStack.custom-vpc-id)
+#print(CustomVpcStack.custom-vpc-id) !!
         vpc = _ec2.Vpc.from_lookup(self,
         "ImportedVPC",
         vpc_id=my_vpc.vpc_id)
