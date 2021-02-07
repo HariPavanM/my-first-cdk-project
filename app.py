@@ -16,6 +16,7 @@ from aws_cdk import core
 
 from resource_stacks.custom_vpc import CustomVpcStack
 from resource_stacks.custom_ec2 import CustomEc2Stack
+#from resource_stacks.custom_ec2 import CustomEc2Stack
 
 #import os module's environ dictionary to access environment variables
 import os
@@ -26,11 +27,11 @@ app = core.App()
 env_prod = core.Environment(account=os.environ["CDK_DEFAULT_ACCOUNT"], region=os.environ["CDK_DEFAULT_REGION"])
 
 #Custom Vpc Stack
-CustomVpcStack(app,"my-custom-vpc-stack", env = env_prod)
-#CustomVpcStack(app,"my-custom-vpc-stack")
+#CustomVpcStack(app,"my-custom-vpc-stack", env = env_prod)
+vpc_stack = CustomVpcStack(app,"my-custom-vpc-stack", env = env_prod)
 
 #Custom Ec2 Stack
-CustomEc2Stack(app,"my-custom-ec2-stack", env = env_prod)
+ec2_stack = CustomEc2Stack(app,"my-custom-ec2-stack", vpc = vpc_stack.vpc, env = env_prod)
 #CustomEc2Stack(app,"my-custom-ec2-stack")
 
 #Adds tags to all resources created under app

@@ -5,25 +5,41 @@ from aws_cdk import (
 
 class CustomEc2Stack(core.Stack):
 
-    def __init__(self, scope: core.Construct, construct_id: str, **kwargs) -> None:
+     def __init__(self, scope: core.Construct, construct_id: str, vpc, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        my_vpc = _ec2.Vpc.from_lookup(self, 'CustomVpcId', vpc_name=f'custom_vpc/CustomVpcId')
+        #Reading bootstrap script file
+        with open("bootstrap_scripts/install_http.sh", mode='r') as file:
+            user_data = file.read()
 
-#print(CustomVpcStack.custom-vpc-id) !!
-        vpc = _ec2.Vpc.from_lookup(self,
-        "ImportedVPC",
-        vpc_id=my_vpc.vpc_id)
 
+        #Webserver Instance 001
+                #Define Ec2 instance attributes
         web_server = _ec2.Instance(self,
-        "webServerId",
-            instance_type=_ec2.InstanceType(instance_type_identifier="t2.micro"),
-            instance_name="myEc2instance",
-            machine_image =_ec2.MachineImage.generic_linux(
-                {"us-east-1":"ami-047a51fa27710816e"}
-            ),
-            vpc=vpc,
-            vpc_subnets=_ec2.SubnetSelection(
-                subnet_type=_ec2.SubnetType.PUBLIC
-                )
+                "webServerId",
+                instance_type=_ec2.InstanceType(instance_type_identifier="t2.micro"),
+                instance_name="myWebserver",
+                machine_image =_ec2.MachineImage.generic_linux(
+                    {"us-east-1":"ami-047a51fa27710816e"}
+                ),
+                #Assign VPC
+                vpc=vpc,
+                vpc_subnets=_ec2.SubnetSelection(
+                    subnet_type=_ec2.SubnetType.PUBLIC
+                    ),
+                #Assign user data
+                user_data = _ec2.UserData.custom(user_data),
+                
             )
+        #Allow web traffic by opening up ports on SG
+        web_server.connections.allow_from_any_ipv4(
+            _ec2.Port.tcp(80), description = "Allow web traffic"
+        )
+
+        output_1= core.CfnOutput(self,
+            "WebserverURL",
+            description="URL to Webserver",
+            value=f"http://{web_server.instance_public_ip}"
+            )
+
+

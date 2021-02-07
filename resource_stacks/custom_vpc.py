@@ -10,7 +10,7 @@ class CustomVpcStack(core.Stack):
 
         prod_configs = self.node.try_get_context('envs')['prod']
 
-        custom_vpc = _ec2.Vpc(
+        self.vpc = _ec2.Vpc(
           self,
           "CustomVpcId",
           cidr=prod_configs['vpc_configs']['vpc_cidr'],
@@ -33,8 +33,8 @@ class CustomVpcStack(core.Stack):
         core.CfnOutput(
             self,
             "customVpcOutput",
-            value=custom_vpc.vpc_id,
+            value=self.vpc.vpc_id,
             description="VPC Id of newly created custom VPC",
-            export_name="custom-vpc-id"
+            export_name="customvpcid"
 
         )
