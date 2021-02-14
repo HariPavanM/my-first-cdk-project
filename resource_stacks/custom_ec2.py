@@ -17,8 +17,8 @@ class CustomEc2Stack(core.Stack):
                 #Define Ec2 instance attributes
         web_server = _ec2.Instance(self,
                 "webServerId",
-                instance_type=_ec2.InstanceType(instance_type_identifier="t2.micro"),
-                instance_name="myWebserver",
+                instance_type=_ec2.InstanceType(instance_type_identifier="t1.micro"),
+                instance_name="myWebserver3",
                 machine_image =_ec2.MachineImage.generic_linux(
                     {"us-east-1":"ami-047a51fa27710816e"}
                 ),
@@ -29,6 +29,7 @@ class CustomEc2Stack(core.Stack):
                     ),
                 #Assign user data
                 user_data = _ec2.UserData.custom(user_data),
+                
                 
             )
         #Allow web traffic by opening up ports on SG

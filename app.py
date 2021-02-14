@@ -35,5 +35,5 @@ ec2_stack = CustomEc2Stack(app,"my-custom-ec2-stack", vpc = vpc_stack.vpc, env =
 #CustomEc2Stack(app,"my-custom-ec2-stack")
 
 #Adds tags to all resources created under app
-core.Tag.add(app,key="Project Name", value=app.node.try_get_context('envs')['prod']['project name'])
+
 app.synth()
