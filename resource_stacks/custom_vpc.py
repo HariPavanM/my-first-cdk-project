@@ -36,5 +36,4 @@ class CustomVpcStack(core.Stack):
             value=self.vpc.vpc_id,
             description="VPC Id of newly created custom VPC",
             export_name="customvpcid"
-
         )
